@@ -34,123 +34,111 @@ extern "C"{
 extern const PinName digitalPin[];
 
 enum {
-//P1 connector Right side
-  PA12,
-  PC0,  //D0
-  PC2,  //D1
-  PA0,  //D2
-  PA2,  //D3
+  PA0,  //D0
+  PA1,  //D1
+  PA2,  //D2
+  PA3,  //D3
   PA4,  //D4
-  PA6,  //D5
-  PC4,  //D6
-  PB0,  //D7
-  PB2,  //D8
-  PE8,  //D9
-  PE10, //D10
-  PE12, //D11
-  PE14, //D12
-  PB10, //D13
-  PB12, //D14
-  PB14, //D15
-  PD8,  //D16
-  PD10, //D17
-  PD12, //D18
-  PD14, //D19
-//P2 connector Left side
-  PH0,  //D20
-  PC14, //D21
-  PE6,  //D22
-  PE4,  //D23
-  PE2,  //D24
-  PE0,  //D25
-  PB8,  //D26
-  PB6,  //D27
-  PB4,  //D28
-  PD7,  //D29
-  PD5,  //D30
-  PD3,  //D31
-  PD1,  //D32
-  PC12, //D33
-  PC10, //D34
-  PA10, //D35
-  PA8,  //D36
-  PC8,  //D37
+  PA5,  //D5
+  PA6,  //D6
+  PA7,  //D7
+  PA8,  //D8
+  PA9,  //D9
+  PA10, //D10
+  PA11, //D11
+  PA12, //D12
+  PA13, //D13
+  PA14, //D14
+  PA15, //D15
+  PB0,  //D16
+  PB1, //D17
+  PB2, //D18
+  PB3, //D19
+  PB4,  //D20
+  PB5, //D21
+  PB6,  //D22
+  PB7,  //D23
+  PB8,  //D24
+  PB9,  //D25
+  PB10,  //D26
+  PB11,  //D27
+  PB12,  //D28
+  PB13,  //D29
+  PB14,  //D30
+  PB15,  //D31
+  PC0,  //D32
+  PC1, //D33
+  PC2, //D34
+  PC3, //D35
+  PC4,  //D36
+  PC5,  //D37
   PC6,  //D38
-//P1 Connector Left Side
-  PC1,  //D39
-  PC3,  //D40
-  PA1,  //D41
-  PA3,  //D42
-  PA5,  //D43
-  PA7,  //D44
-  PC5,  //D45
-  PB1,  //D46
-  PE7,  //D47
-  PE9,  //D48
-  PE11, //D49
-  PE13, //D50
-  PE15, //D51
-  PB11, //D52
-  PB13, //D53
-  PB15, //D54
-  PD9,  //D55
-  PD11, //D56
-  PD13, //D57
-  PD15, //D58
-//P2 connector Right side
-  PH1,  //D59
-  PC15, //D60
-  PC13, //D61
-  PE5,  //D62
-  PE3,  //D63
-  PE1,  //D64
-  PB9,  //D65
-  PB7,  //D66
-  PB5,  //D67
-  PB3,  //D68
-  PD6,  //D69
-  PD4,  //D70
-  PD2,  //D71
-  PD0,  //D72
-  PC11, //D73
-  PA15, //D74
-  PA13, //D75
-  PA9,  //D76
-  PC9,  //D77
-  PC7,  //D78
-//Duplicated to have A0-A5 as F407 do not have Uno like connector
+  PC7,  //D39
+  PC8,  //D40
+  PC9,  //D41
+  PC10,  //D42
+  PC11,  //D43
+  PC12,  //D44
+  PC13,  //D45
+  PC14,  //D46
+  PC15,  //D47
+  PD0,  //D48
+  PD1, //D49
+  PD2, //D50
+  PD3, //D51
+  PD4, //D52
+  PD5, //D53
+  PD6, //D54
+  PD7,  //D55
+  PD8, //D56
+  PD9, //D57
+  PD10, //D58
+  PD11,  //D59
+  PD12, //D60
+  PD13, //D61
+  PD14,  //D62
+  PD15,  //D63
+  PE0,  //D64
+  PE1,  //D65
+  PE2,  //D66
+  PE3,  //D67
+  PE4,  //D68
+  PE5,  //D69
+  PE6,  //D70
+  PE7,  //D71
+  PE8,  //D72
+  PE9,  //D73
+  PE10, //D74
+  PE11, //D75
+  PE12, //D76
+  PE13, //D77
+  PE14, //D78
+  PE15, //D79
+//Duplicated to have A0-A2 as F407 do not have Uno like connector
 // and to be aligned with PinMap_ADC
-  PC2_2,//D79/A0 = D1
-  PC4_2,//D80/A1 = D6
-  PB0_2,//D81/A2 = D7
-  PC1_2,//D82/A3 = D39
-  PC3_2,//D83/A4 = D40
-  PA1_2,//D84/A5 = D41
-  PC5_2,//D85/A6 = D45
-  PB1_2,//D86/A7 = D46
+  PC0_2, //D80/A0 = D32
+  PC1_2, //D81/A1 = D33
+  PC2_2, //D82/A2 = D34
   PEND
 };
 
 // This must be a literal with the same value as PEND
-#define NUM_DIGITAL_PINS        88
+#define NUM_DIGITAL_PINS        83
 // This must be a literal with a value less than or equal to to MAX_ANALOG_INPUTS
-#define NUM_ANALOG_INPUTS       8
+#define NUM_ANALOG_INPUTS       3
 #define NUM_ANALOG_FIRST        80
 
 // On-board LED pin number
-#define LED_BUILTIN             PD12
-#define LED_GREEN               LED_BUILTIN
-#define LED_BLUE                PD15
-#define LED_RED                 PD14
-#define LED_ORANGE              PD13
+#define LED_BUILTIN             PB7
+#define LED_HEARTBEAT           LED_BUILTIN
 
 // On-board user button
-#define USER_BTN                2
+// #define USER_BTN                2
 
 // SPI Definitions
-#define PIN_SPI_SS2             14
+#define PIN_SPI_SS2             PE7
 #define PIN_SPI_MOSI            PA7
-#define PIN_SPI_MISO            5
+#define PIN_SPI_MISO            PA6
 #define PIN_SPI_SCK             PA5
 
 // I2C Definitions
