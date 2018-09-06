@@ -102,6 +102,7 @@ __IO uint32_t lineState = 0;
 volatile uint32_t USB_received = 0;
 uint8_t USBBuffer[64];
 uint8_t USBPackSize;
+bool sendZLP = false;
 
 /* Default configuration: 115200, 8N1 */
 uint8_t lineSetup[] = {0x00, 0xc2, 0x01, 0x00, 0x00, 0x00, 0x08};
@@ -362,6 +363,7 @@ void TIM6_PeriodElapsedCallback(stimer_t *htim)
 {
   UNUSED(htim);
   uint8_t status;
+  uint16_t transferSize;
 
   if(USB_received) {
     USB_received = 0;
@@ -379,30 +381,39 @@ void TIM6_PeriodElapsedCallback(stimer_t *htim)
 
     USBD_CDC_ReceivePacket(&hUSBD_Device_CDC);
   }
+  
+  if(UserTxBufPtrOut > UserTxBufPtrIn) { /* Roll-back */
+    memcpy((uint8_t*)&StackTxBufferFS[0], (uint8_t*)&UserTxBufferFS[UserTxBufPtrOut], (APP_TX_DATA_SIZE - UserTxBufPtrOut));
+    memcpy((uint8_t*)&StackTxBufferFS[APP_TX_DATA_SIZE - UserTxBufPtrOut], (uint8_t*)&UserTxBufferFS[0], UserTxBufPtrIn);
 
-  if(UserTxBufPtrOut != UserTxBufPtrIn) {
-    if(UserTxBufPtrOut > UserTxBufPtrIn) { /* Roll-back */
-      memcpy((uint8_t*)&StackTxBufferFS[0], (uint8_t*)&UserTxBufferFS[UserTxBufPtrOut], (APP_TX_DATA_SIZE - UserTxBufPtrOut));
+    transferSize = (APP_TX_DATA_SIZE - UserTxBufPtrOut + UserTxBufPtrIn);
 
-      memcpy((uint8_t*)&StackTxBufferFS[APP_TX_DATA_SIZE - UserTxBufPtrOut], (uint8_t*)&UserTxBufferFS[0], UserTxBufPtrIn);
+    USBD_CDC_SetTxBuffer(&hUSBD_Device_CDC, (uint8_t*)&StackTxBufferFS[0], transferSize);
+  } 
+  else if (UserTxBufPtrOut != UserTxBufPtrIn) {
+    transferSize = (UserTxBufPtrIn - UserTxBufPtrOut);
 
-      USBD_CDC_SetTxBuffer(&hUSBD_Device_CDC, (uint8_t*)&StackTxBufferFS[0], (APP_TX_DATA_SIZE - UserTxBufPtrOut + UserTxBufPtrIn));
-    }
-    else 
-    {
-      USBD_CDC_SetTxBuffer(&hUSBD_Device_CDC, (uint8_t*)&UserTxBufferFS[UserTxBufPtrOut], (UserTxBufPtrIn - UserTxBufPtrOut));
-    }
+    USBD_CDC_SetTxBuffer(&hUSBD_Device_CDC, (uint8_t*)&UserTxBufferFS[UserTxBufPtrOut], transferSize);
+  } 
+  else if (sendZLP) {
+    transferSize = 0;
 
-    do {        
-        if (lineState == 0) // Device disconnected
-          status = USBD_OK;
-        else      
-	        status = USBD_CDC_TransmitPacket(&hUSBD_Device_CDC);
-    } while(status == USBD_BUSY);
+    USBD_CDC_SetTxBuffer(&hUSBD_Device_CDC, NULL, 0);
+  } else {
+    return;
+  }
 
-    if(status == USBD_OK) {
-      UserTxBufPtrOut = UserTxBufPtrIn;
-    }
+  do {        
+      if (lineState == 0) // Device disconnected
+        status = USBD_OK;
+      else      
+        status = USBD_CDC_TransmitPacket(&hUSBD_Device_CDC);
+  } while(status == USBD_BUSY);
+
+  if(status == USBD_OK) {
+    UserTxBufPtrOut = UserTxBufPtrIn;
+
+    sendZLP = transferSize%64 == 0;
   }
 }
 
