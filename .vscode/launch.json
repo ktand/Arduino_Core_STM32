@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "./.pioenvs/STM32F4_ARMED/firmware.elf",
+            "name": "Debug Microcontroller",
+            "request": "launch",
+            "type": "cortex-debug",
+            "device": "STM32F407VET",
+            "servertype": "openocd",
+            "svdFile": "d:/temp/STM32F40x.svd",
+            "configFiles": [
+                "interface/stlink-v2.cfg",
+                "target/stm32f4x.cfg"
+            ]
+        },
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "../build/Marlin.ino.elf",
+            "name": "Debug Microcontroller (Arduino)",
+            "request": "launch",
+            "type": "cortex-debug",
+            "device": "STM32F407VET",
+            "servertype": "openocd",
+            "svdFile": "d:/temp/STM32F40x.svd",
+            "configFiles": [
+                "interface/stlink-v2.cfg",
+                "target/stm32f4x.cfg"
+            ]
+        },        
+        {
+            "type": "gdb",
+            "request": "launch",
+            "cwd": "${workspaceRoot}",
+            "name": "PlatformIO Debugger",
+            "target": "c:/Users/Karl/Github/Marlin/.pioenvs/STM32F4_ARMED/firmware.elf",
+            "gdbpath": "C:/Users/Karl/.platformio/penv/Scripts/piodebuggdb",
+            "autorun": [ "source .pioinit" ],
+            "preLaunchTask": "PlatformIO: Pre-Debug",
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}
