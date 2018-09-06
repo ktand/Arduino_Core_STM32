@@ -9,7 +9,9 @@ version=1.0.0
 
 # STM compile variables
 # ----------------------
-compiler.stm.extra_include="-I{build.core.path}/avr" "-I{build.core.path}/stm32" "-I{build.system.path}/Drivers/{build.series}_HAL_Driver/Inc/" "-I{build.system.path}/Drivers/{build.series}_HAL_Driver/Src/" "-I{build.system.path}/{build.series}/" "-I{build.variant.path}/usb" "-I{build.variant.path}/Ethernet" "-I{build.system.path}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" "-I{build.system.path}/Middlewares/ST/STM32_USB_Device_Library/Core/Src" "-I{build.system.path}/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc" "-I{build.system.path}/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src"
+compiler.stm.extra_include="-I{build.source.path}" "-I{build.core.path}/avr" "-I{build.core.path}/stm32" "-I{build.core.path}/stm32/LL" "-I{build.system.path}/Drivers/{build.series}_HAL_Driver/Inc/" "-I{build.system.path}/Drivers/{build.series}_HAL_Driver/Src/" "-I{build.system.path}/{build.series}/" "-I{build.variant.path}/usb" "-I{build.system.path}/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" "-I{build.system.path}/Middlewares/ST/STM32_USB_Device_Library/Core/Src" "-I{build.system.path}/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc" "-I{build.system.path}/Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src"
+
+# "-I{build.system.path}/Drivers/BSP/Components" "-I{build.system.path}/Middlewares/Third_Party/FatFs/src"  "-I{build.system.path}/Middlewares/ST/STM32_USB_Device_Library/Core/Src" "-I{build.system.path}/Middlewares/ST/STM32_USB_Device_Library/Class/HID/Inc"
 
 compiler.warning_flags=-w
 compiler.warning_flags.none=-w
@@ -77,9 +79,9 @@ build.usb_manufacturer="Unknown"
 build.info.flags=-D{build.series} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} -DBOARD_NAME="{build.board}"
 
 # Defaults config
-build.xSerial=
+build.xSerial=-DHAL_UART_MODULE_ENABLED
 build.enable_usb=
-build.flags.optimize=
+build.flags.optimize=-Os
 build.flags.ldspecs=
 
 # Pre and post build hooks
