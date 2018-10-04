@@ -149,9 +149,8 @@ size_t USBSerial::write(uint8_t ch) {
   CDC_disable_TIM_Interrupt();
 
   if(((UserTxBufPtrIn + 1) % APP_TX_DATA_SIZE) == UserTxBufPtrOut)
-  {
-    // Buffer full!!! Force a flush to not loose data and go on
-    CDC_flush();
+  {  
+    CDC_flush();  // Buffer full!!! Force a flush to not loose data and go on
   }
   UserTxBufferFS[UserTxBufPtrIn] = ch;
   UserTxBufPtrIn = ((UserTxBufPtrIn + 1) % APP_TX_DATA_SIZE);
@@ -162,28 +161,21 @@ size_t USBSerial::write(uint8_t ch) {
 }
 
 int USBSerial::available(void) {
-  int ret;
-
-  CDC_disable_TIM_Interrupt();
-  ret = ((APP_RX_DATA_SIZE + (UserRxBufPtrIn - UserRxBufPtrOut)) % APP_RX_DATA_SIZE);
-  CDC_enable_TIM_Interrupt();
-
-  return ret;
+  return ((APP_RX_DATA_SIZE + (UserRxBufPtrIn - UserRxBufPtrOut)) % APP_RX_DATA_SIZE);
 }
 
-int USBSerial::read(void) {
-  /* UserTxBufPtrOut can be modified by TIM ISR, so in order to be sure that the */
-  /* value that we read is correct, we need to disable TIM Interrupt.            */
-  CDC_disable_TIM_Interrupt();
+int USBSerial::read(void) 
+{
   if(UserRxBufPtrOut == UserRxBufPtrIn)
   {
-    CDC_enable_TIM_Interrupt();
     return -1;
-  } else
+  } 
+  else
   {
     unsigned char c = UserRxBufferFS[UserRxBufPtrOut];
     UserRxBufPtrOut = ((UserRxBufPtrOut + 1) % APP_RX_DATA_SIZE);
-    CDC_enable_TIM_Interrupt();
+
+    CDC_resume_receive();
     return c;
   }
 }
@@ -192,15 +184,12 @@ int USBSerial::peek(void)
 {
   /* UserTxBufPtrOut can be modified by TIM ISR, so in order to be sure that the */
   /* value that we read is correct, we need to disable TIM Interrupt.            */
-  CDC_disable_TIM_Interrupt();
   if(UserRxBufPtrOut == UserRxBufPtrIn)
   {
-    CDC_enable_TIM_Interrupt();
     return -1;
   } else
   {
     unsigned char c = UserRxBufferFS[UserRxBufPtrOut];
-    CDC_enable_TIM_Interrupt();
     return c;
   }
 }
