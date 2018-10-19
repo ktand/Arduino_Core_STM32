@@ -529,7 +529,7 @@ Armed.pid.0=0x5740
 
 Armed.build.core=arduino
 Armed.build.board=Armed
-Armed.build.extra_flags=-D{build.product_line} {build.enable_usb} {build.xSerial}
+Armed.build.extra_flags=-D{build.product_line} {build.enable_usb} {build.xSerial} -g -ggdb
 
 # Armed board
 # Support: USB CDC
