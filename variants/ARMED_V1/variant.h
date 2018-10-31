@@ -33,94 +33,86 @@ extern "C"{
  *----------------------------------------------------------------------------*/
 extern const PinName digitalPin[];
 
-enum {
-  PA0,  //D0
-  PA1,  //D1
-  PA2,  //D2
-  PA3,  //D3
-  PA4,  //D4
-  PA5,  //D5
-  PA6,  //D6
-  PA7,  //D7
-  PA8,  //D8
-  PA9,  //D9
-  PA10, //D10
-  PA11, //D11
-  PA12, //D12
-  PA13, //D13
-  PA14, //D14
-  PA15, //D15
-  PB0,  //D16
-  PB1, //D17
-  PB2, //D18
-  PB3, //D19
-  PB4,  //D20
-  PB5, //D21
-  PB6,  //D22
-  PB7,  //D23
-  PB8,  //D24
-  PB9,  //D25
-  PB10,  //D26
-  PB11,  //D27
-  PB12,  //D28
-  PB13,  //D29
-  PB14,  //D30
-  PB15,  //D31
-  PC0,  //D32
-  PC1, //D33
-  PC2, //D34
-  PC3, //D35
-  PC4,  //D36
-  PC5,  //D37
-  PC6,  //D38
-  PC7,  //D39
-  PC8,  //D40
-  PC9,  //D41
-  PC10,  //D42
-  PC11,  //D43
-  PC12,  //D44
-  PC13,  //D45
-  PC14,  //D46
-  PC15,  //D47
-  PD0,  //D48
-  PD1, //D49
-  PD2, //D50
-  PD3, //D51
-  PD4, //D52
-  PD5, //D53
-  PD6, //D54
-  PD7,  //D55
-  PD8, //D56
-  PD9, //D57
-  PD10, //D58
-  PD11,  //D59
-  PD12, //D60
-  PD13, //D61
-  PD14,  //D62
-  PD15,  //D63
-  PE0,  //D64
-  PE1,  //D65
-  PE2,  //D66
-  PE3,  //D67
-  PE4,  //D68
-  PE5,  //D69
-  PE6,  //D70
-  PE7,  //D71
-  PE8,  //D72
-  PE9,  //D73
-  PE10, //D74
-  PE11, //D75
-  PE12, //D76
-  PE13, //D77
-  PE14, //D78
-  PE15, //D79
-//Duplicated to have A0-A2 as F407 do not have Uno like connector
-// and to be aligned with PinMap_ADC
-  PC0_2, //D80/A0 = D32
-  PC1_2, //D81/A1 = D33
-  PC2_2, //D82/A2 = D34
-  PEND
-};
+#define PA0   0  //D0
+#define PA1   1  //D1
+#define PA2   2  //D2
+#define PA3   3  //D3
+#define PA4   4  //D4
+#define PA5   5  //D5
+#define PA6   6  //D6
+#define PA7   7  //D7
+#define PA8   8  //D8
+#define PA9   9  //D9
+#define PA10  10 //D10
+#define PA11  11 //D11
+#define PA12  12 //D12
+#define PA13  13 //D13
+#define PA14  14 //D14
+#define PA15  15 //D15
+#define PB0   16 //D16
+#define PB1   17 //D17
+#define PB2   18 //D18
+#define PB3   19 //D19
+#define PB4   20 //D20
+#define PB5   21 //D21
+#define PB6   22 //D22
+#define PB7   23 //D23
+#define PB8   24 //D24
+#define PB9   25 //D25
+#define PB10  26 //D26
+#define PB11  27 //D27
+#define PB12  28 //D28
+#define PB13  29 //D29
+#define PB14  30 //D30
+#define PB15  31 //D31
+#define PC0   32 //D32
+#define PC1   33 //D33
+#define PC2   34 //D34
+#define PC3   35 //D35
+#define PC4   36 //D36
+#define PC5   37 //D37
+#define PC6   38 //D38
+#define PC7   39 //D39
+#define PC8   40 //D40
+#define PC9   41 //D41
+#define PC10  42 //D42
+#define PC11  43 //D43
+#define PC12  44 //D44
+#define PC13  45 //D45
+#define PC14  46 //D46
+#define PC15  47 //D47
+#define PD0   48 //D48
+#define PD1   49 //D49
+#define PD2   50 //D50
+#define PD3   51 //D51
+#define PD4   52 //D52
+#define PD5   53 //D53
+#define PD6   54 //D54
+#define PD7   55 //D55
+#define PD8   56 //D56
+#define PD9   57 //D57
+#define PD10  58 //D58
+#define PD11  59 //D59
+#define PD12  60 //D60
+#define PD13  61 //D61
+#define PD14  62 //D62
+#define PD15  63 //D63
+#define PE0   64 //D64
+#define PE1   65 //D65
+#define PE2   66 //D66
+#define PE3   67 //D67
+#define PE4   68 //D68
+#define PE5   69 //D69
+#define PE6   70 //D70
+#define PE7   71 //D71
+#define PE8   72 //D72
+#define PE9   73 //D73
+#define PE10  74 //D74
+#define PE11  75 //D75
+#define PE12  76 //D76
+#define PE13  77 //D77
+#define PE14  78 //D78
+#define PE15  79 //D79
 
 // This must be a literal with the same value as PEND
 #define NUM_DIGITAL_PINS        83
@@ -151,7 +143,7 @@ enum {
 #define TIMER_SERVO             TIM7
 
 // UART Definitions
-#define SERIAL_UART_INSTANCE    4 //Connected to ST-Link
+#define SERIAL_UART_INSTANCE    4 // Connected to SER1 header
 
 // Default pin used for 'Serial' instance (ex: ST-Link)
 // Mandatory for Firmata

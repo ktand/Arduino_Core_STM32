@@ -1,6 +1,7 @@
 #ifndef _STM32_DEF_BUILD_
 #define _STM32_DEF_BUILD_
 
+#if !defined(CMSIS_STARTUP_FILE) && !defined(CUSTOM_STARTUP_FILE)
 #if defined(STM32F030x6)
 #define CMSIS_STARTUP_FILE "startup_stm32f030x6.s"
 #elif defined(STM32F030x8)
@@ -247,6 +248,10 @@
 #define CMSIS_STARTUP_FILE "startup_stm32l162xdx.s"
 #elif defined(STM32L162xE)
 #define CMSIS_STARTUP_FILE "startup_stm32l162xe.s"
+#elif defined(STM32L412xx)
+#define CMSIS_STARTUP_FILE "startup_stm32l412xx.s"
+#elif defined(STM32L422xx)
+#define CMSIS_STARTUP_FILE "startup_stm32l422xx.s"
 #elif defined(STM32L431xx)
 #define CMSIS_STARTUP_FILE "startup_stm32l431xx.s"
 #elif defined(STM32L432xx)
@@ -292,4 +297,7 @@
 #else
 #error UNKNOWN CHIP
 #endif
-#endif //_STM32_DEF_BUILD_
+#else
+#warning "No CMSIS startup file defined, custom one should be used"
+#endif /* !CMSIS_STARTUP_FILE && !CUSTOM_STARTUP_FILE */
+#endif /* _STM32_DEF_BUILD_ */

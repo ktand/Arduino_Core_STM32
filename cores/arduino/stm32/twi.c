@@ -47,6 +47,7 @@
 /** @addtogroup STM32F4xx_System_Private_Includes
   * @{
   */
+#include "core_debug.h"
 #include "stm32_def.h"
 #include "twi.h"
 #include "PinAF_STM32F1.h"
@@ -166,14 +167,14 @@ void i2c_custom_init(i2c_t *obj, i2c_timing_e timing, uint32_t addressingMode, u
 
   //Pins SDA/SCL must not be NP
   if(i2c_sda == NP || i2c_scl == NP) {
-    printf("ERROR: at least one I2C pin has no peripheral\n");
+    core_debug("ERROR: at least one I2C pin has no peripheral\n");
     return;
   }
 
   obj->i2c = pinmap_merge_peripheral(i2c_sda, i2c_scl);
 
   if(obj->i2c == NP) {
-    printf("ERROR: I2C pins mismatch\n");
+    core_debug("ERROR: I2C pins mismatch\n");
     return;
   }
 
@@ -547,14 +548,14 @@ void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, ui
       if(obj->i2c_onSlaveTransmit != NULL) {
         obj->i2c_onSlaveTransmit();
       }
-      HAL_I2C_Slave_Sequential_Transmit_IT(hi2c, obj->i2cTxRxBuffer,
+      HAL_I2C_Slave_Sequential_Transmit_IT(hi2c, (uint8_t *) obj->i2cTxRxBuffer,
                                            obj->i2cTxRxBufferSize, I2C_LAST_FRAME);
     } else {
       obj->slaveRxNbData = 0;
       obj->slaveMode = SLAVE_MODE_RECEIVE;
       /*  We don't know in advance how many bytes will be sent by master so
        *  we'll fetch one by one until master ends the sequence */
-      HAL_I2C_Slave_Sequential_Receive_IT(hi2c, &(obj->i2cTxRxBuffer[obj->slaveRxNbData]),
+      HAL_I2C_Slave_Sequential_Receive_IT(hi2c, (uint8_t *) &(obj->i2cTxRxBuffer[obj->slaveRxNbData]),
                                           1, I2C_NEXT_FRAME);
     }
   }
@@ -575,7 +576,7 @@ void HAL_I2C_ListenCpltCallback(I2C_HandleTypeDef *hi2c)
   if((obj->i2c_onSlaveReceive != NULL) &&
     (obj->slaveMode == SLAVE_MODE_RECEIVE)) {
     if(obj->slaveRxNbData != 0) {
-      obj->i2c_onSlaveReceive(obj->i2cTxRxBuffer, obj->slaveRxNbData);
+      obj->i2c_onSlaveReceive((uint8_t *) obj->i2cTxRxBuffer, obj->slaveRxNbData);
     }
   }
   obj->slaveMode = SLAVE_MODE_LISTEN;
@@ -596,11 +597,11 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
   if(obj->slaveRxNbData < I2C_TXRX_BUFFER_SIZE) {
     obj->slaveRxNbData++;
   } else {
-    printf("ERROR: I2C Slave RX overflow\n");
+    core_debug("ERROR: I2C Slave RX overflow\n");
   }
   /* Restart interrupt mode for next Byte */
   if(obj->slaveMode == SLAVE_MODE_RECEIVE) {
-      HAL_I2C_Slave_Sequential_Receive_IT(hi2c, &(obj->i2cTxRxBuffer[obj->slaveRxNbData]),
+      HAL_I2C_Slave_Sequential_Receive_IT(hi2c, (uint8_t *) &(obj->i2cTxRxBuffer[obj->slaveRxNbData]),
                                           1, I2C_NEXT_FRAME);
   }
 }

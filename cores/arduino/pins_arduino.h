@@ -20,8 +20,8 @@
 // Include board variant
 #include "variant.h"
 
-// Avoid pins number misalignment
-_Static_assert(NUM_DIGITAL_PINS==PEND, "NUM_DIGITAL_PINS and PEND differ!");
+// Avoid PortName issue
+_Static_assert(LastPort <= 0x0F, "PortName must be less than 16");
 
 // Arduino digital pins alias
 // GPIO port (A to K) * 16 pins: 176

@@ -12,7 +12,6 @@ extern "C"{
 #include "clock.h"
 #include "core_callback.h"
 #include "digital_io.h"
-#include "hal_uart_emul.h"
 #include "hw_config.h"
 #include "low_power.h"
 #include "rtc.h"
@@ -21,7 +20,6 @@ extern "C"{
 #include "timer.h"
 #include "twi.h"
 #include "uart.h"
-#include "uart_emul.h"
 
 void init( void ) ;
 #ifdef __cplusplus

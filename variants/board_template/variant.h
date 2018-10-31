@@ -45,19 +45,30 @@ extern "C"{
  *----------------------------------------------------------------------------*/
 extern const PinName digitalPin[];
 
-// Enum defining pin names to match digital pin number --> Dx
+// Define pin names to match digital pin number --> Dx
+// It could be used with preprocessor tests (e.g. #if PXn == 3)
+// so an enum will not work.
 // !!!
-// !!! Copy the digitalPin[] array in variant.cpp
+// !!! Copy the digitalPin[] array from the variant.cpp
 // !!! and remove all '_': PX_n --> PXn
-// !!! For NC, suffix by _x where x is the number of NC:
-// !!!   NC_1, NC_2,...
-// !!! For duplicated pin name, suffix by _x where x is the number of pin:
-// !!! PA7, PA7_2, PA7_3,...
-enum {
-  PEND
-};
+// !!! For NC, comment the line to warn x pin number is NC
+// !!! // x is NC
+// !!! For duplicated pin name, comment the line to warn x pin number
+// !!! is PXn which is already defined with y pin number
+// !!! // x is PXn (y)
+// !!! Ex:
+// !!! ...
+// !!! #define PA4  20 // A14
+// !!! #define PB4  21
+// !!! #define PB5  22
+// !!! #define PB3  23
+// !!! // 24 is PA4 (20)
+// !!! // 25 is PB4 (21)// #define PXn x
+// !!! #define PA2  26 // A15
+// !!! ...
+//#define PXn x
 
-// This must be a literal with the same value as PEND
+// This must be a literal
 // It is used with preprocessor tests (e.g. #if NUM_DIGITAL_PINS > 3)
 // so an enum will not work.
 #define NUM_DIGITAL_PINS        0
@@ -111,7 +122,6 @@ enum {
 // Timer Definitions
 //Do not use timer used by PWM pins when possible. See PinMap_PWM in PeripheralPins.c
 #define TIMER_TONE              TIMx
-//#define TIMER_UART_EMULATED     TIMx
 
 // Do not use basic timer: OC is required
 #define TIMER_SERVO             TIMx  //TODO: advanced-control timers don't work
@@ -126,14 +136,25 @@ enum {
 // DEBUG_UART Tx pin name, default: the first one found in PinMap_UART_TX for DEBUG_UART
 //#define DEBUG_PINNAME_TX        PX_n // PinName used for TX
 
-// UART Emulation (uncomment if needed, required TIM1)
-//#define UART_EMUL_RX            PX_n // PinName used for RX
-//#define UART_EMUL_TX            PX_n // PinName used for TX
-
 // Default pin used for 'Serial' instance (ex: ST-Link)
 // Mandatory for Firmata
 #define PIN_SERIAL_RX           x
 #define PIN_SERIAL_TX           x
+
+// Optional PIN_SERIALn_RX and PIN_SERIALn_TX where 'n' is the U(S)ART number
+// Used when user instanciate a hardware Serial using its peripheral name.
+// Example: HardwareSerial mySerial(USART3);
+// will use PIN_SERIAL3_RX and PIN_SERIAL3_TX if defined.
+//#define PIN_SERIALn_RX          x // For U(S)ARTn RX
+//#define PIN_SERIALn_TX          x // For U(S)ARTn TX
+//#define PIN_SERIALLP1_RX        x // For LPUART1 RX
+//#define PIN_SERIALLP1_TX        x // For LPUART1 TX
+
+// SD card slot Definitions
+// SD detect signal can be defined if required
+//#define SD_DETECT_PIN           x
+// SD Read/Write timeout, default value defined in STM32SD library
+//#define SD_DATATIMEOUT          x
 
 #ifdef __cplusplus
 } // extern "C"
