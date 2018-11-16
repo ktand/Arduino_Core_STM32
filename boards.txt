@@ -708,9 +708,9 @@ RAK.menu.upload_method.STLink.upload.tool=stlink_upload
 3dprinter.menu.pnum.REMRAM_V1.build.cmsis_lib_gcc=arm_cortexM7l_math
 
 # Virtual COM port
-#3dprinter.menu.usb.none=None
-#3dprinter.menu.usb.CDC=CDC
-#3dprinter.menu.usb.CDC.build.enable_usb={build.usb_flags} -DUSBD_USE_CDC -DUSE_USB_FS
+3dprinter.menu.usb.none=None
+3dprinter.menu.usb.CDC=CDC
+3dprinter.menu.usb.CDC.build.enable_usb={build.usb_flags} -DUSBD_USE_CDC -DUSE_USB_FS
 
 # Upload menu
 3dprinter.menu.upload_method.STLinkMethod=STLink
